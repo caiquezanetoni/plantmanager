@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         fontFamily: fonts.text,
         color: colors.blue,
-        fontSize: 17
+        fontSize: 16
     },
     alertLabel: {
         textAlign: 'center',
