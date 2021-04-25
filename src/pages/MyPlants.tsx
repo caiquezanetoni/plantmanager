@@ -6,14 +6,17 @@ import {
     View,
     FlatList
 } from 'react-native'
+import { formatDistance } from 'date-fns';
+import { pt } from 'date-fns/locale';
+
 import { Header } from '../components/Header';
+import { PlantCardSecondary } from '../components/PlantCardSecondary';
+import { Load } from '../components/Load';
+
 import colors from '../styles/colors';
 import waterdrop from '../assets/waterdrop.png';
 import { PlantProps, loadPlant } from '../libs/storage';
-import { formatDistance } from 'date-fns';
-import { pt } from 'date-fns/locale';
 import fonts from '../styles/fonts';
-import { PlantCardSecondary } from '../components/PlantCardSecondary';
 
 export function MyPlants() {
 
@@ -35,12 +38,14 @@ export function MyPlants() {
                 `Não esqueça de regar a ${plantsStoraged[0].name} à ${nextTime}.`
             );
 
-            console.log(plantsStoraged);
             setMyPlants(plantsStoraged);
             setLoading(false);
         }
         loadStorageData();
     }, []);
+
+    if (loading)
+        return <Load />
     return (
         <View style={styles.container}>
             <Header />
