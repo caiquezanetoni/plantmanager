@@ -43,7 +43,6 @@ export function PlantSelect() {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [loadingMore, setLoadingMore] = useState(false);
-    const [loadedAll, setLoadedAll] = useState(false);
 
     function handleEnvironmentSelected(key: string) {
         setEnvironmentSelected(key);
@@ -61,7 +60,7 @@ export function PlantSelect() {
         const { data } = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`);
 
         if (!data)
-            return setLoadedAll(true);
+            return setLoading(true);
 
         if (page > 1) {
             setPlants(oldValue => [...oldValue, ...data]);
@@ -124,6 +123,7 @@ export function PlantSelect() {
             <View>
                 <FlatList
                     data={environments}
+                    keyExtractor={(item) => String(item.key)}
                     renderItem={({ item }) => (
                         <EnvironmentButton
                             title={item.title}
@@ -138,6 +138,7 @@ export function PlantSelect() {
             <View style={styles.plants}>
                 <FlatList
                     data={filteredPlants}
+                    keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
                         <PlantCardPrimary data={item} />
                     )}
@@ -148,7 +149,7 @@ export function PlantSelect() {
                         handleFetchMore(distanceFromEnd)
                     }
                     ListFooterComponent={
-                        loadingMore && !loadedAll
+                        loadingMore
                             ? <ActivityIndicator color={colors.green} />
                             : <></>
                     } />
